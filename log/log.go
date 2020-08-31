@@ -11,6 +11,8 @@ import (
 	"github.com/googollee/gobase"
 )
 
+// Logger is the logger from zerolog.
+// It outputs timestamp/level/caller/codehash by default.
 var Logger zerolog.Logger
 
 func init() {
