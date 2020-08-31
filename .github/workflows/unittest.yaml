@@ -43,3 +43,6 @@ jobs:
 
       - name: Vet
         run: go vet ./...
+
+      - name: test
+        run: go test ./...

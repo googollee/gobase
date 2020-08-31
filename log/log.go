@@ -1,3 +1,5 @@
+// Package log provides a easy way to log.
+// For advance usage, please check https://pkg.go.dev/github.com/rs/zerolog
 package log
 
 import (
