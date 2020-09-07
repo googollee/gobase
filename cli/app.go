@@ -23,6 +23,8 @@ COMPILED WITH:
 // Apppplication is the main structure of a cli application.
 type Application struct {
 	cli.App
+
+	SetupFunc CommandHandler
 }
 
 // App is the default application.
@@ -41,12 +43,26 @@ func (a *Application) Command(name, usage string, f CommandHandler) *Command {
 			},
 		},
 	}
+	if a.SetupFunc != nil {
+		ret.Command.Before = func(ctx *cli.Context) error {
+			return a.SetupFunc(&Context{
+				Context: ctx,
+			})
+		}
+	}
 	a.Commands = append(a.Commands, ret.Command)
 	return ret
 }
 
 // CommandHandler is a function to handle something.
 type CommandHandler func(ctx *Context) error
+
+// Setup hooks a handler to execute before any sub-subcommands are run, but after the context is ready.
+// Help subcommand won't run this hook.
+// If a non-nil error is returned, no sub-subcommands are run.
+func (a *Application) Setup(f CommandHandler) {
+	a.SetupFunc = f
+}
 
 // Before hooks a handler to execute before any sub-subcommands are run, but after the context is ready.
 // If a non-nil error is returned, no sub-subcommands are run.
