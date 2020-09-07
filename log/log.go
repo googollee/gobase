@@ -30,7 +30,7 @@ func init() {
 		return file[i+1:] + ":" + strconv.Itoa(line)
 	}
 
-	Logger = zerolog.New(os.Stderr).With().Timestamp().Str("s", gobase.CodeHash).Caller().Logger()
+	Logger = zerolog.New(os.Stderr).With().Timestamp().Str("s", gobase.CodeHash).CallerWithSkipFrameCount(4).Logger()
 }
 
 // Output duplicates the global logger and sets w as its output.
