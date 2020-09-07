@@ -62,6 +62,13 @@ type CommandHandler func(ctx *Context) error
 // If a non-nil error is returned, no sub-subcommands are run.
 func (a *Application) Setup(f CommandHandler) {
 	a.SetupFunc = f
+	for _, cmd := range a.Commands {
+		cmd.Before = func(ctx *cli.Context) error {
+			return a.SetupFunc(&Context{
+				Context: ctx,
+			})
+		}
+	}
 }
 
 // Before hooks a handler to execute before any sub-subcommands are run, but after the context is ready.
