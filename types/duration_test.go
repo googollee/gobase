@@ -1,6 +1,7 @@
 package types
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
@@ -34,4 +35,28 @@ func TestDuration(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestEmptyDuration(t *testing.T) {
+	tests := []struct {
+		text []byte
+		want Duration
+	}{
+		{nil, 0},
+		{[]byte{}, 0},
+		{[]byte(""), 0},
+	}
+
+	for _, test := range tests {
+		t.Run(fmt.Sprintf("%#v", test.text), func(t *testing.T) {
+			var got Duration
+			if err := got.UnmarshalText(test.text); err != nil {
+				t.Fatal("duration.UnmarshalText() != nil, error:", err)
+			}
+			if want, got := test.want, got; want != got {
+				t.Errorf("duration.UnmarshalText() returns:\n\twant: %q\n\tgot:  %q", want, got)
+			}
+		})
+	}
+
 }

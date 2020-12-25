@@ -6,6 +6,11 @@ import "time"
 type Duration time.Duration
 
 func (d *Duration) UnmarshalText(text []byte) error {
+	if text == nil || len(text) == 0 {
+		// ignore null value
+		return nil
+	}
+
 	v, err := time.ParseDuration(string(text))
 	if err != nil {
 		return err
