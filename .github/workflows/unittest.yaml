@@ -6,12 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: [ '1.15', 'tip' ]
+        go-version: [ '1.15.x', 'tip' ]
     steps:
       - name: Install Go
         run: |
           curl -sL https://raw.githubusercontent.com/maxatome/install-go/v2.0/install-go.pl |
             perl - ${{ matrix.go-version }} $HOME/go
+          go version
 
       - name: Check out source code
         uses: actions/checkout@v2
