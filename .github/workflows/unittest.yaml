@@ -6,34 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [ '1.14', 'tip' ]
+        go-version: [ '1.15', 'tip' ]
     steps:
       - name: Install Go
-        if: matrix.go != 'tip'
-        uses: actions/setup-go@v2
-        with:
-          go-version: ${{ matrix.go }}
-
-      - name: Install Go
-        if: matrix.go == 'tip'
         run: |
-          export GOROOT_BOOTSTRAP=`go env GOROOT`
-          export GOROOT_FINAL=/go
-          export GOROOT=$HOME/gotip
-          mkdir $HOME/gotip
-          cd $HOME/gotip
-
-          curl -s 'https://go.googlesource.com/go/+/refs/heads/master?format=JSON' | awk '/"commit"/{print substr($2,2,40);exit}' >HEAD
-          awk '{printf("gotip-%s",substr($0,0,7))}' <HEAD >VERSION
-
-          curl -s -o go.tar.gz https://go.googlesource.com/go/+archive/`cat HEAD`.tar.gz
-          tar xfz go.tar.gz
-
-          cd src
-          bash make.bash
-
-          echo "::set-env name=GOROOT::$GOROOT"
-          echo "::add-path::$GOROOT/bin"
+          curl -sL https://raw.githubusercontent.com/maxatome/install-go/v2.0/install-go.pl |
+            perl - ${{ matrix.go-version }} $HOME/go
 
       - name: Check out source code
         uses: actions/checkout@v2
