@@ -12,10 +12,12 @@ jobs:
         run: |
           curl -sL https://raw.githubusercontent.com/maxatome/install-go/v2.0/install-go.pl |
             perl - ${{ matrix.go-version }} $HOME/go
-          go version
 
       - name: Check out source code
         uses: actions/checkout@v2
+
+      - name: Check go version
+        run: go version
 
       - name: Build
         run: go build ./...
@@ -23,5 +25,5 @@ jobs:
       - name: Vet
         run: go vet ./...
 
-      - name: test
+      - name: Test
         run: go test ./...
