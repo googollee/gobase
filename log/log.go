@@ -22,7 +22,7 @@ func init() {
 	zerolog.LevelFieldName = "p"
 	zerolog.MessageFieldName = "m"
 	zerolog.CallerFieldName = "c"
-	zerolog.CallerMarshalFunc = func(file string, line int) string {
+	zerolog.CallerMarshalFunc = func(pc uintptr, file string, line int) string {
 		i := strings.LastIndex(file, "/")
 		if i < 0 {
 			i = 0
