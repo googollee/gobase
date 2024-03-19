@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Install Go
         if: matrix.go != 'tip'
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
           go-version: ${{ matrix.go }}
           check-latest: true
@@ -28,7 +28,7 @@ jobs:
           echo "$HOME/gotip/bin" >> $GITHUB_PATH
 
       - name: Check out source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Check go version
         run: go version
