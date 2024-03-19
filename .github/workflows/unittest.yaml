@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Install Go
         if: matrix.go != 'tip'
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go }}
           check-latest: true
